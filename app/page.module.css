@@ -1,3 +1,4 @@
+
 .home {
   min-height: 100vh;
   background: white url("/cats.png") center bottom / 90% auto no-repeat;
@@ -7,6 +8,8 @@
   color: #111;
 }
 
+/* LOGO */
+
 .logo {
   position: absolute;
   top: 25px;
@@ -15,65 +18,105 @@
   margin: 0;
   font-size: 30px;
   font-weight: 400;
+
+  animation: logoEnter 0.7s ease-out;
 }
+
+/* CONTENT */
 
 .content {
   position: absolute;
-  top: 160px;
+  top: 150px;
   left: 50%;
   transform: translateX(-50%);
+
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  animation: contentEnter 0.5s ease-out;
 }
 
+
+/* ANALYZE BUTTON */
+
 .analyzeButton {
-  width: 160px;
-  height: 58px;
+  width: 200px;
+  height: 70px;
+
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
+
   background: #e5e5e5;
-  font-size: 20px;
+
+  font-size: 24px;
   color: #111;
+
   cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+
+  animation: buttonEnter 0.6s ease-out 0.2s both;
 }
 
 .analyzeButton:hover {
   background: #dcdcdc;
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
 }
+
+.analyzeButton:active {
+  transform: translateY(0) scale(0.97);
+}
+
 
 /* RECENT */
 
 .recent {
-  margin-top: 18px;
-  width: 150px;
-  font-size: 13px;
-  line-height: 1.6;
+  margin-top: 22px;
+  width: 190px;
+
+  font-size: 16px;
+  line-height: 1.8;
+
+  animation: fadeUp 0.6s ease-out 0.35s both;
 }
 
 .recentTitle {
   text-align: center;
-  margin-bottom: 5px;
+  margin-bottom: 7px;
+  font-size: 16px;
 }
 
 .recentRow {
   display: flex;
   justify-content: space-between;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
+
+.recentRow:hover {
+  transform: translateX(4px);
+}
+
 
 /* INPUT */
 
 .inputBox {
-  width: 260px;
-  height: 180px;
-  background: #e5e5e5;
-  border-radius: 12px;
-
+  width: 330px;
+  height: 225px;
+  background: rgba(229, 229, 229, 0.6);
+  border-radius: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
+  animation: cardEnter 0.45s ease-out;
 }
 
 .inputOptions {
@@ -81,7 +124,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 50px;
+
+  gap: 75px;
 }
 
 .inputOption {
@@ -90,9 +134,9 @@
   align-items: center;
   justify-content: center;
 
-  width: 60px;
+  width: 80px;
 
-  font-size: 13px;
+  font-size: 16px;
   color: #111;
 
   cursor: pointer;
@@ -100,75 +144,198 @@
   border: none;
   background: transparent;
   padding: 0;
+
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+
+.inputOption:hover {
+  transform: translateY(-5px);
+  color: #555;
+}
+
+.inputOption:active {
+  transform: scale(0.92);
 }
 
 .icon {
-  font-size: 40px;
+  font-size: 50px;
   color: #777;
 
-  height: 48px;
+  height: 60px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  margin-bottom: 5px;
+  margin-bottom: 8px;
+
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
 }
+
+.inputOption:hover .icon {
+  color: #555;
+  transform: scale(1.08);
+}
+
+
+/* BACK / ANALYZE AGAIN */
 
 .againButton {
   margin-top: 75px;
-  transform: translateY(-30px);
 
   border: none;
   background: transparent;
-  font-size: 20px;
+
+  font-size: 16px;
   color: #111;
+
   cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .againButton:hover {
   text-decoration: underline;
+  transform: translateY(-2px);
 }
+
+.againButton:active {
+  transform: translateY(0) scale(0.96);
+}
+
 
 /* RESULT */
 
 .resultBox {
-  width: 230px;
-  height: 310px;
-  background: #e5e5e5;
-  border-radius: 14px;
+  width: 290px;
+  height: 390px;
+  background: rgba(229, 229, 229, 0.6);
+  border-radius: 17px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  animation: resultEnter 0.55s ease-out;
 }
 
 .resultSmall {
-  margin-top: 25px;
+  margin-top: 32px;
   margin-bottom: 0;
-  font-size: 14px;
+  font-size: 17px;
+  animation: fadeUp 0.5s ease-out 0.15s both;
 }
 
 .resultMood {
-  margin-top: 50px;
+  margin-top: 62px;
   margin-bottom: 0;
-  font-size: 22px;
+  font-size: 29px;
   font-weight: 400;
+  animation: moodPop 0.5s ease-out 0.25s both;
 }
 
 .confidence {
-  margin-top: 8px;
-  font-size: 19px;
+  margin-top: 10px;
+  font-size: 25px;
+  animation: fadeUp 0.5s ease-out 0.35s both;
 }
 
-.againButton {
-  margin-top: 75px;
-  border: none;
-  background: transparent;
-  font-size: 13px;
-  color: #111;
-  cursor: pointer;
+.resultBox .againButton {
+  margin-top: 90px;
+  font-size: 16px;
+  animation: fadeUp 0.5s ease-out 0.45s both;
 }
 
-.againButton:hover {
-  text-decoration: underline;
+/* ANIMATIONS */
+
+@keyframes logoEnter {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes contentEnter {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes buttonEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes resultEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes moodPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  70% {
+    transform: scale(1.08);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
