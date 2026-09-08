@@ -3,29 +3,191 @@
 import { useState } from "react";
 import styles from "./page.module.css";
 
+const API_URL = "";
+
 export default function Home() {
   const [screen, setScreen] = useState("home");
   const [file, setFile] = useState(null);
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleUpload = (event) => {
+  const handleUpload = async (event) => {
     const selectedFile = event.target.files[0];
 
-    if (selectedFile) {
-      setFile(selectedFile);
-      setScreen("result");
+    if (!selectedFile) return;
+
+    setFile(selectedFile);
+    setError("");
+    setLoading(true);
+    setScreen("result");
+
+    try {
+      const formData = new FormData();
+
+      formData.append("file", selectedFile);
+
+      const response = await fetch(
+        `${API_URL}/predict`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Prediction failed");
+      }
+
+      const data = await response.json();
+
+      console.log("API RESULT:", data);
+
+      setResult(data);
+
+    } catch (error) {
+
+      console.error(error);
+
+      setError(
+        "Unable to analyze the audio. Make sure the Python server is running."
+      );
+
+    } finally {
+
+      setLoading(false);
+
     }
   };
 
-  const handleRecord = () => {
-    setScreen("result");
+  const handleRecord = async () => {
+    try {
+      setError("");
+
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+      });
+
+      const mediaRecorder = new MediaRecorder(stream);
+
+      const audioChunks = [];
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunks.push(event.data);
+        }
+      };
+
+      mediaRecorder.onstop = async () => {
+        stream.getTracks().forEach((track) => {
+          track.stop();
+        });
+
+        const audioBlob = new Blob(
+          audioChunks,
+          {
+            type: mediaRecorder.mimeType,
+          }
+        );
+
+        const audioFile = new File(
+          [audioBlob],
+          "cat_recording.webm",
+          {
+            type: audioBlob.type,
+          }
+        );
+
+        setFile(audioFile);
+        setScreen("result");
+        setLoading(true);
+
+        try {
+          const formData = new FormData();
+
+          formData.append(
+            "file",
+            audioFile
+          );
+
+          const response = await fetch(
+            `${API_URL}/predict`,
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error(
+              "Prediction failed"
+            );
+          }
+
+          const data =
+            await response.json();
+
+          console.log(
+            "RECORDING RESULT:",
+            data
+          );
+
+          setResult(data);
+
+        } catch (error) {
+
+          console.error(error);
+
+          setError(
+            "Unable to analyze the recording."
+          );
+
+        } finally {
+
+          setLoading(false);
+
+        }
+      };
+
+      setScreen("recording");
+
+      mediaRecorder.start();
+
+      setTimeout(() => {
+        if (
+          mediaRecorder.state === "recording"
+        ) {
+          mediaRecorder.stop();
+        }
+      }, 5000);
+
+    } catch (error) {
+
+      console.error(error);
+
+      setError(
+        "Microphone permission was denied or is unavailable."
+      );
+
+    }
+  };
+
+  const analyzeAgain = () => {
+    setFile(null);
+    setResult(null);
+    setError("");
+    setScreen("input");
   };
 
   return (
     <main className={styles.home}>
 
-      <h1 className={styles.logo}>pusakal</h1>
+      <h1 className={styles.logo}>
+        pusakal
+      </h1>
 
       {screen === "home" && (
+
         <section className={styles.content}>
 
           <button
@@ -36,6 +198,7 @@ export default function Home() {
           </button>
 
           <div className={styles.recent}>
+
             <div className={styles.recentTitle}>
               Recently heard
             </div>
@@ -54,12 +217,15 @@ export default function Home() {
               <span>Warning</span>
               <span>84%</span>
             </div>
+
           </div>
 
         </section>
+
       )}
 
       {screen === "input" && (
+
         <section className={styles.content}>
 
           <div className={styles.inputBox}>
@@ -70,13 +236,24 @@ export default function Home() {
                 className={styles.inputOption}
                 onClick={handleRecord}
               >
-                <span className={styles.icon}>●</span>
-                <span>Record</span>
+                <span className={styles.icon}>
+                  ●
+                </span>
+
+                <span>
+                  Record
+                </span>
               </button>
 
               <label className={styles.inputOption}>
-                <span className={styles.icon}>↑</span>
-                <span>Upload</span>
+
+                <span className={styles.icon}>
+                  ↑
+                </span>
+
+                <span>
+                  Upload
+                </span>
 
                 <input
                   type="file"
@@ -84,15 +261,14 @@ export default function Home() {
                   onChange={handleUpload}
                   hidden
                 />
+
               </label>
 
             </div>
 
             <button
               className={styles.againButton}
-              onClick={() => {
-                setScreen("home");
-              }}
+              onClick={() => setScreen("home")}
             >
               Back to home
             </button>
@@ -100,31 +276,102 @@ export default function Home() {
           </div>
 
         </section>
+
       )}
 
-      {screen === "result" && (
+      {screen === "recording" && (
+
         <section className={styles.content}>
 
           <div className={styles.resultBox}>
 
             <p className={styles.resultSmall}>
-              The Sound is
+              Listening...
             </p>
 
             <h2 className={styles.resultMood}>
-              HAPPY
+              RECORDING
             </h2>
 
-            <p className={styles.confidence}>
-              92%
+            <p>
+              Recording your cat's sound
             </p>
+
+            <p>
+              Please wait...
+            </p>
+
+          </div>
+
+        </section>
+
+      )}
+
+      {screen === "result" && (
+
+        <section className={styles.content}>
+
+          <div className={styles.resultBox}>
+
+            {loading && (
+
+              <>
+                <p className={styles.resultSmall}>
+                  Analyzing...
+                </p>
+
+                <h2 className={styles.resultMood}>
+                  PLEASE WAIT
+                </h2>
+              </>
+
+            )}
+
+            {!loading && error && (
+
+              <>
+                <p className={styles.resultSmall}>
+                  Error
+                </p>
+
+                <h2 className={styles.resultMood}>
+                  FAILED
+                </h2>
+
+                <p>
+                  {error}
+                </p>
+              </>
+
+            )}
+
+            {!loading && !error && result && (
+
+              <>
+
+                <p className={styles.resultSmall}>
+                  The Sound is
+                </p>
+
+                <h2 className={styles.resultMood}>
+                  {result.predicted_mood.toUpperCase()}
+                </h2>
+
+                <p className={styles.confidence}>
+                  {result.confidence.toFixed(2)}%
+                </p>
+
+                <p>
+                  {result.filename}
+                </p>
+
+              </>
+
+            )}
 
             <button
               className={styles.againButton}
-              onClick={() => {
-                setFile(null);
-                setScreen("input");
-              }}
+              onClick={analyzeAgain}
             >
               Analyze again
             </button>
@@ -132,6 +379,7 @@ export default function Home() {
           </div>
 
         </section>
+
       )}
 
     </main>
