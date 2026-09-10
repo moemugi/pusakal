@@ -3,7 +3,7 @@
 import { useState } from "react";
 import styles from "./page.module.css";
 
-const API_URL = "";
+const API_URL = process.env.NEXT_PUBLIC_RENDER_AIAPI;
 
 export default function Home() {
   const [screen, setScreen] = useState("home");
@@ -36,9 +36,15 @@ export default function Home() {
       );
 
       if (!response.ok) {
-        throw new Error("Prediction failed");
-      }
+        const errorData = await response.json().catch(() => null);
 
+        console.error("API ERROR:", errorData);
+
+        throw new Error(
+          errorData?.detail || "Prediction failed"
+        );
+      }
+      
       const data = await response.json();
 
       console.log("API RESULT:", data);
@@ -119,8 +125,12 @@ export default function Home() {
           );
 
           if (!response.ok) {
+            const errorData = await response.json().catch(() => null);
+
+            console.error("API ERROR:", errorData);
+
             throw new Error(
-              "Prediction failed"
+              errorData?.detail || "Prediction failed"
             );
           }
 
