@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import styles from "./page.module.css";
+import { Upload, Mic  } from 'lucide-react';
 
 const API_URL = process.env.NEXT_PUBLIC_RENDER_AIAPI;
 
@@ -245,33 +246,24 @@ export default function Home() {
               <button
                 className={styles.inputOption}
                 onClick={handleRecord}
-              >
-                <span className={styles.icon}>
-                  ●
-                </span>
-
-                <span>
-                  Record
-                </span>
+                >
+                <Mic className={styles.icon} size={32} />
+                  <span>
+                    Record
+                  </span>
               </button>
 
               <label className={styles.inputOption}>
-
-                <span className={styles.icon}>
-                  ↑
-                </span>
-
-                <span>
-                  Upload
-                </span>
-
+                <Upload className={styles.icon} size={32} />
+                  <span>
+                    Upload
+                  </span>
                 <input
                   type="file"
                   accept="audio/*"
                   onChange={handleUpload}
                   hidden
                 />
-
               </label>
 
             </div>
