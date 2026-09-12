@@ -9,7 +9,6 @@
 }
 
 /* LOGO */
-
 .logo {
   position: absolute;
   top: 25px;
@@ -23,42 +22,32 @@
 }
 
 /* CONTENT */
-
 .content {
   position: absolute;
   top: 150px;
   left: 50%;
   transform: translateX(-50%);
-
   display: flex;
   flex-direction: column;
   align-items: center;
-
   animation: contentEnter 0.5s ease-out;
 }
 
 
 /* ANALYZE BUTTON */
-
 .analyzeButton {
   width: 200px;
   height: 70px;
-
   border: none;
   border-radius: 12px;
-
   background: #e5e5e5;
-
   font-size: 24px;
   color: #111;
-
   cursor: pointer;
-
   transition:
     transform 0.2s ease,
     background 0.2s ease,
     box-shadow 0.2s ease;
-
   animation: buttonEnter 0.6s ease-out 0.2s both;
 }
 
@@ -72,16 +61,12 @@
   transform: translateY(0) scale(0.97);
 }
 
-
 /* RECENT */
-
 .recent {
   margin-top: 22px;
   width: 190px;
-
   font-size: 16px;
   line-height: 1.8;
-
   animation: fadeUp 0.6s ease-out 0.35s both;
 }
 
@@ -94,7 +79,6 @@
 .recentRow {
   display: flex;
   justify-content: space-between;
-
   transition:
     transform 0.2s ease,
     opacity 0.2s ease;
@@ -104,9 +88,7 @@
   transform: translateX(4px);
 }
 
-
 /* INPUT */
-
 .inputBox {
   width: 330px;
   height: 225px;
@@ -124,7 +106,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-
   gap: 75px;
 }
 
@@ -133,18 +114,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   width: 80px;
-
   font-size: 16px;
   color: #111;
-
   cursor: pointer;
-
   border: none;
   background: transparent;
   padding: 0;
-
   transition:
     transform 0.2s ease,
     color 0.2s ease;
@@ -162,15 +138,11 @@
 .icon {
   font-size: 50px;
   color: #777;
-
   height: 60px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   margin-bottom: 8px;
-
   transition:
     transform 0.2s ease,
     color 0.2s ease;
@@ -181,20 +153,14 @@
   transform: scale(1.08);
 }
 
-
 /* BACK / ANALYZE AGAIN */
-
 .againButton {
   margin-top: 75px;
-
   border: none;
   background: transparent;
-
   font-size: 16px;
   color: #111;
-
   cursor: pointer;
-
   transition:
     transform 0.2s ease,
     opacity 0.2s ease;
@@ -209,9 +175,7 @@
   transform: translateY(0) scale(0.96);
 }
 
-
 /* RESULT */
-
 .resultBox {
   width: 290px;
   height: 390px;
@@ -220,18 +184,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-sizing: border-box;
   animation: resultEnter 0.55s ease-out;
 }
 
 .resultSmall {
-  margin-top: 32px;
+  margin-top: 38px;
   margin-bottom: 0;
   font-size: 17px;
   animation: fadeUp 0.5s ease-out 0.15s both;
 }
 
 .resultMood {
-  margin-top: 62px;
+  margin-top: 55px;
   margin-bottom: 0;
   font-size: 29px;
   font-weight: 400;
@@ -240,14 +205,119 @@
 
 .confidence {
   margin-top: 10px;
+  margin-bottom: 0;
   font-size: 25px;
   animation: fadeUp 0.5s ease-out 0.35s both;
 }
 
 .resultBox .againButton {
-  margin-top: 90px;
+  margin-top: 55px;
   font-size: 16px;
   animation: fadeUp 0.5s ease-out 0.45s both;
+}
+
+/* RESULT CONTENT */
+.resultContent {
+  position: absolute;
+  top: 150px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+  width: max-content;
+  animation: contentEnter 0.5s ease-out;
+}
+
+/* DETAILS BUTTON */
+.detailsButton {
+  margin-top: 50px;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  color: #111;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.detailsButton:hover {
+  text-decoration: underline;
+  transform: translateY(-2px);
+}
+
+.detailsButton:active {
+  transform: translateY(0) scale(0.96);
+}
+
+/* DETAILS BOX */
+.detailsBox {
+  width: 290px;
+  height: 390px;
+  background: rgba(229, 229, 229, 0.6);
+  border-radius: 17px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 25px;
+  animation: detailsEnter 0.45s ease-out;
+}
+
+
+/* DETAILS HEADER */
+.detailsHeader {
+  margin-top: 38px;
+  margin-bottom: 38px;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+/* DETAILS SECTION */
+.detailsSection {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.detailsSection h3 {
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* PREDICTION ROW */
+.predictionRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  font-size: 14px;
+}
+
+/* FILENAME */
+.filename {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  word-break: break-word;
+  text-align: center;
+}
+
+/* DETAILS ANIMATION */
+@keyframes detailsEnter {
+  from {
+    opacity: 0;
+    transform: translateX(-10px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
 }
 
 /* ANIMATIONS */

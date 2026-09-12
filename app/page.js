@@ -12,6 +12,7 @@ export default function Home() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showDetails, setShowDetails] = useState(false);
 
   const handleUpload = async (event) => {
     const selectedFile = event.target.files[0];
@@ -188,6 +189,7 @@ export default function Home() {
     setResult(null);
     setError("");
     setScreen("input");
+    setShowDetails(false);
   };
 
   return (
@@ -311,7 +313,7 @@ export default function Home() {
 
       {screen === "result" && (
 
-        <section className={styles.content}>
+        <section className={styles.resultContent}>
 
           <div className={styles.resultBox}>
 
@@ -350,7 +352,6 @@ export default function Home() {
             {!loading && !error && result && (
 
               <>
-
                 <p className={styles.resultSmall}>
                   The Sound is
                 </p>
@@ -363,10 +364,12 @@ export default function Home() {
                   {result.confidence.toFixed(2)}%
                 </p>
 
-                <p>
-                  {result.filename}
-                </p>
-
+                <button
+                  className={styles.detailsButton}
+                  onClick={() => setShowDetails(!showDetails)}
+                >
+                  {showDetails ? "Hide details" : "Details"}
+                </button>
               </>
 
             )}
@@ -379,6 +382,59 @@ export default function Home() {
             </button>
 
           </div>
+
+
+          {!loading && !error && result && showDetails && (
+
+            <div className={styles.detailsBox}>
+
+              <p className={styles.detailsHeader}>
+                Details
+              </p>
+
+              <div className={styles.detailsSection}>
+
+                <h3>
+                  Top predictions
+                </h3>
+
+                {result.top_3?.map((prediction, index) => (
+
+                  <div
+                    className={styles.predictionRow}
+                    key={index}
+                  >
+
+                    <span>
+                      {prediction.mood}
+                    </span>
+
+                    <span>
+                      {prediction.confidence.toFixed(2)}%
+                    </span>
+
+                  </div>
+
+                ))}
+
+              </div>
+
+
+              <div className={styles.detailsSection}>
+
+                <h3>
+                  Recording
+                </h3>
+
+                <p className={styles.filename}>
+                  {result.filename}
+                </p>
+
+              </div>
+
+            </div>
+
+          )}
 
         </section>
 
